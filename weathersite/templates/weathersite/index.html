@@ -1,0 +1,83 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Skylist — Plan your day by the sky</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo"><span class="dot"></span>Skylist</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#">How it works</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+      <a href="#" class="btn btn-ghost">Log in</a>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="sky-veil"></div>
+
+    <span class="hero-eyebrow">☀ 22° in Kathmandu · Clear until evening</span>
+
+    <h1>Plan your day <em>by the sky</em>, not just your calendar.</h1>
+
+    <p class="lede">
+      Skylist pairs live weather with your to-do list, so a storm rolling in
+      moves your outdoor errands and a clear afternoon frees up room for the
+      task you've been putting off.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary">Create your account</a>
+      <a href="#" class="btn btn-ghost">See how it works</a>
+    </div>
+
+    <div class="preview-row" id="features">
+
+      <div class="panel">
+        <div class="panel-label">Current weather</div>
+        <div class="weather-mini-temp">22<span class="unit">°C</span></div>
+        <div class="weather-hero-cond" style="color:var(--ink-soft)">Partly cloudy · Kathmandu</div>
+        <div class="weather-mini-meta">
+          <span>💧 Humidity 58%</span>
+          <span>💨 Wind 9 km/h</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Today's tasks</div>
+
+        <div class="mini-task">
+          <span class="chip high"></span>
+          <span>Submit client proposal</span>
+        </div>
+        <div class="mini-task">
+          <span class="chip med"></span>
+          <span>Grocery run before the rain</span>
+        </div>
+        <div class="mini-task">
+          <span class="chip low"></span>
+          <span class="done">Morning run</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="{% static 'weathersite/script.js' %}"></script>
+</body>
+</html>
