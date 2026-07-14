@@ -7,7 +7,7 @@
   <title>Skylist — Dashboard</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
 </head>
@@ -15,155 +15,52 @@
 
   <nav class="nav">
     <div class="nav-logo"><span class="dot"></span>Skylist</div>
-    <div class="nav-links">
-      <a href="#">Dashboard</a>
-      <a href="#">Tasks</a>
-      <a href="#">Favorites</a>
-    </div>
-    <div class="nav-actions">
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-      </button>
-      <div class="avatar">AS</div>
-    </div>
   </nav>
 
   <main class="dashboard">
 
-    <!-- LEFT COLUMN -->
-    <div class="col">
-
-      <div class="card weather-hero">
-        <div class="card-head">
-          <div class="city">Kathmandu, NP</div>
-          <div class="search">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
-            Search city
-          </div>
+    {% if weather %}
+      <div class="card weather-card" style="max-width:none;margin:0 0 1.5rem;">
+        <div class="city">{{ city_name }}</div>
+        <div class="temp-row">
+          <div class="temp">{{ weather.temp }}<span class="unit">°C</span></div>
+          <div class="icon">{{ weather.emoji }}</div>
         </div>
-
-        <div class="weather-hero-main">
-          <div>
-            <div class="weather-hero-temp">22<span class="unit">°C</span></div>
-            <div class="weather-hero-cond">Partly cloudy</div>
-          </div>
-          <div style="font-size:3.5rem">⛅</div>
-        </div>
-
-        <div class="weather-hero-stats">
-          <span>Feels like<strong>24°</strong></span>
-          <span>Humidity<strong>58%</strong></span>
-          <span>Wind<strong>9 km/h</strong></span>
-          <span>UV<strong>3</strong></span>
+        <div class="condition">{{ weather.condition }}</div>
+        <div class="weather-stats">
+          <span>Feels like<strong>{{ weather.feels_like }}°</strong></span>
+          <span>Humidity<strong>{{ weather.humidity }}%</strong></span>
+          <span>Wind<strong>{{ weather.wind_speed }} km/h</strong></span>
         </div>
       </div>
+    {% else %}
+      <div class="card">
+        <div class="empty-state">
+          Couldn't load live weather right now — check your OpenWeather API key
+          and internet connection, then refresh.
+        </div>
+      </div>
+    {% endif %}
 
+    {% if forecast %}
       <div class="card">
         <div class="card-head">
           <h3>Next 5 days</h3>
           <span class="sub">°C</span>
         </div>
         <div class="forecast-strip">
-          <div class="forecast-day"><div class="d">Sat</div>☀️<div class="t">24°</div></div>
-          <div class="forecast-day"><div class="d">Sun</div>⛅<div class="t">22°</div></div>
-          <div class="forecast-day"><div class="d">Mon</div>🌧️<div class="t">19°</div></div>
-          <div class="forecast-day"><div class="d">Tue</div>⛈️<div class="t">18°</div></div>
-          <div class="forecast-day"><div class="d">Wed</div>☀️<div class="t">23°</div></div>
+          {% for day in forecast %}
+            <div class="forecast-day">
+              <div class="d">{{ day.date }}</div>
+              <div class="icon">{{ day.emoji }}</div>
+              <div class="t">{{ day.temp }}°</div>
+            </div>
+          {% endfor %}
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Today's focus</h3>
-          <span class="sub">weather-matched priority</span>
-        </div>
-
-        <div class="task-strip">
-          <div class="task-card p-high">
-            <div class="icon">⛈️</div>
-            <div class="time">2:00 PM</div>
-            <div class="title">Submit client proposal</div>
-            <div class="task-check"></div>
-          </div>
-
-          <div class="task-card p-med">
-            <div class="icon">⛅</div>
-            <div class="time">4:30 PM</div>
-            <div class="title">Grocery run before the rain</div>
-            <div class="task-check"></div>
-          </div>
-
-          <div class="task-card p-low">
-            <div class="icon">☀️</div>
-            <div class="time">7:00 AM</div>
-            <div class="title">Morning run</div>
-            <div class="task-check done"></div>
-          </div>
-
-          <div class="task-card p-med">
-            <div class="icon">⛅</div>
-            <div class="time">6:00 PM</div>
-            <div class="title">Call the plumber</div>
-            <div class="task-check"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="col">
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Upcoming deadlines</h3>
-        </div>
-
-        <div class="deadline-row">
-          <div class="date-badge">JUL<span class="n">12</span></div>
-          <div class="deadline-info">
-            <div class="t">Renew car insurance</div>
-            <div class="c">Personal · Medium priority</div>
-          </div>
-        </div>
-
-        <div class="deadline-row">
-          <div class="date-badge">JUL<span class="n">14</span></div>
-          <div class="deadline-info">
-            <div class="t">Quarterly report draft</div>
-            <div class="c">Work · High priority</div>
-          </div>
-        </div>
-
-        <div class="deadline-row">
-          <div class="date-badge">JUL<span class="n">18</span></div>
-          <div class="deadline-info">
-            <div class="t">Dentist appointment</div>
-            <div class="c">Personal · Low priority</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Productivity</h3>
-          <span class="sub">this week</span>
-        </div>
-
-        <div class="ring-wrap">
-          <div class="ring" data-pct="70%"></div>
-          <div class="stat-list">
-            <span><strong>14</strong> of 20 tasks completed</span>
-            <span><strong>3</strong> high-priority items cleared</span>
-            <span><strong>2</strong> tasks moved for weather</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    {% endif %}
 
   </main>
 
-  <script src="{% static 'weathersite/script.js' %}"></script>
 </body>
 </html>
