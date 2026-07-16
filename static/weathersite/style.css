@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Skylist — Weather
+   Simple, calm, weather-first design
+   ========================================================================== */
+
+:root {
+  --sky: #3D7EFF;
+  --ink: #1C2733;
+  --ink-soft: #6B7684;
+  --bg: #F6F8FB;
+  --card: #FFFFFF;
+  --border: rgba(28, 39, 51, 0.08);
+  --shadow: 0 8px 24px rgba(28, 39, 51, 0.06);
+  --radius: 18px;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display { font-family: var(--font-display); letter-spacing: -0.01em; margin: 0; }
+.mono { font-family: var(--font-mono); }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--sky); color: #fff; }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 4px; }
+
+/* Nav */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.nav-logo .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--sky);
+}
+
+.nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+.btn-ghost { background: transparent; border-color: var(--border); color: var(--ink); }
+.btn-ghost:hover { background: var(--card); }
+
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+/* Hero (indexx.html) */
+
+.hero {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 4rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero h1 em { font-style: normal; color: var(--sky); }
+
+.hero p.lede {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 42ch;
+  margin: 1.25rem auto 2rem;
+  line-height: 1.6;
+}
+
+.hero-ctas { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+/* Weather preview / hero card (shared look) */
+
+.weather-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  max-width: 380px;
+  margin: 2.5rem auto 0;
+  text-align: left;
+}
+
+.weather-card .city {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+}
+
+.weather-card .temp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.weather-card .temp {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 500;
+}
+.weather-card .temp .unit { font-size: 1.1rem; color: var(--ink-soft); }
+.weather-card .icon { font-size: 2.75rem; }
+
+.weather-card .condition { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 1rem; }
+
+.weather-stats {
+  display: flex;
+  gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.weather-stats strong {
+  display: block;
+  font-family: var(--font-mono);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* Dashboard (home.html) */
+
+.dashboard {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem 2rem 4rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.card-head h3 { font-size: 1rem; }
+.card-head .sub { font-size: 0.78rem; color: var(--ink-soft); font-family: var(--font-mono); }
+
+.forecast-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.6rem;
+}
+@media (max-width: 560px) {
+  .forecast-strip { grid-auto-flow: column; grid-auto-columns: 80px; overflow-x: auto; }
+}
+
+.forecast-day {
+  text-align: center;
+  padding: 0.9rem 0.4rem;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.forecast-day .d { font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 0.4rem; }
+.forecast-day .icon { font-size: 1.3rem; }
+.forecast-day .t { font-family: var(--font-mono); font-weight: 600; margin-top: 0.4rem; font-size: 0.9rem; }
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}

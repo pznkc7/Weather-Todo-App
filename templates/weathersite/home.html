@@ -1,0 +1,90 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Skylist — Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo"><span class="dot"></span>Skylist</div>
+    <div class="nav-actions">
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-ghost">Log out</button>
+      </form>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+
+    <form method="get" class="card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin-bottom:1.5rem;">
+      <input
+        type="text"
+        name="city"
+        placeholder="Search a city (e.g. Pokhara)"
+        value="{{ searched_city }}"
+        style="flex:1; border:1px solid var(--border); border-radius:999px; padding:0.6rem 1rem; font-family:var(--font-body); font-size:0.9rem;"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if search_error %}
+      <div class="card" style="border-color:#f2c94c;">
+        <div class="empty-state" style="color:var(--ink);">{{ search_error }}</div>
+      </div>
+    {% endif %}
+
+
+    {% if weather %}
+      <div class="card weather-card" style="max-width:none;margin:0 0 1.5rem;">
+        <div class="city">{{ city_name }}</div>
+        <div class="temp-row">
+          <div class="temp">{{ weather.temp }}<span class="unit">°C</span></div>
+          <div class="icon">{{ weather.emoji }}</div>
+        </div>
+        <div class="condition">{{ weather.condition }}</div>
+        <div class="weather-stats">
+          <span>Feels like<strong>{{ weather.feels_like }}°</strong></span>
+          <span>Humidity<strong>{{ weather.humidity }}%</strong></span>
+          <span>Wind<strong>{{ weather.wind_speed }} km/h</strong></span>
+        </div>
+      </div>
+    {% else %}
+      <div class="card">
+        <div class="empty-state">
+          Couldn't load live weather right now — check your OpenWeather API key
+          and internet connection, then refresh.
+        </div>
+      </div>
+    {% endif %}
+
+    {% if forecast %}
+      <div class="card">
+        <div class="card-head">
+          <h3>Next 5 days</h3>
+          <span class="sub">°C</span>
+        </div>
+        <div class="forecast-strip">
+          {% for day in forecast %}
+            <div class="forecast-day">
+              <div class="d">{{ day.date }}</div>
+              <div class="icon">{{ day.emoji }}</div>
+              <div class="t">{{ day.temp }}°</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  </main>
+
+</body>
+</html>

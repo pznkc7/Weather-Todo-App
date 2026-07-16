@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Skylist — Weather, simply</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo"><span class="dot"></span>Skylist</div>
+    <div class="nav-actions">
+      <a href="{% url 'login' %}" class="btn btn-ghost">Log in</a>
+      <a href="{% url 'register' %}" class="btn btn-primary">Get started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Know the sky <em>before you step outside.</em></h1>
+    <p class="lede">
+      Skylist shows you real-time weather for right where you are —
+      no searching, no setup. Just open it and see today.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="{% url 'register' %}" class="btn btn-primary">Create your account</a>
+    </div>
+
+    <form method="get" action="{% url 'home' %}" class="weather-card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin:2.5rem auto 0; align-items:center;">
+      <input
+        type="text"
+        name="city"
+        placeholder="Search a city (e.g. Pokhara)"
+        style="flex:1; border:1px solid var(--border); border-radius:999px; padding:0.6rem 1rem; font-family:var(--font-body); font-size:0.9rem; background:var(--bg);"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="weather-card">
+      <div class="city">Kathmandu</div>
+      <div class="temp-row">
+        <div class="temp">22<span class="unit">°C</span></div>
+        <div class="icon">⛅</div>
+      </div>
+      <div class="condition">Partly cloudy</div>
+      <div class="weather-stats">
+        <span>Feels like<strong>24°</strong></span>
+        <span>Humidity<strong>58%</strong></span>
+        <span>Wind<strong>9 km/h</strong></span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
