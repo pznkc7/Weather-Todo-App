@@ -1,28 +1,8 @@
+{% extends "weathersite/index.html" %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>Skylist — Dashboard</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
-</head>
-<body>
-
-  <nav class="nav">
-    <div class="nav-logo"><span class="dot"></span>Skylist</div>
-    <div class="nav-actions">
-      <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-ghost">Log out</button>
-      </form>
-    </div>
-  </nav>
-
+  {% block content %}
   <main class="dashboard">
 
     <form method="get" class="card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin-bottom:1.5rem;">
@@ -83,8 +63,7 @@
         </div>
       </div>
     {% endif %}
-
   </main>
-
+{% endblock content %}
 </body>
 </html>

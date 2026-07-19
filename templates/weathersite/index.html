@@ -14,24 +14,43 @@
 <body>
 
   <nav class="nav">
-    <div class="nav-logo"><span class="dot"></span>Skylist</div>
-    <div class="nav-actions">
-      <a href="{% url 'login' %}" class="btn btn-ghost">Log in</a>
-      <a href="{% url 'register' %}" class="btn btn-primary">Get started</a>
-    </div>
+    <a href="{% url 'index' %}" class="nav-logo"><span class="dot"></span>Skylist</a>
+
+    {% if user.is_authenticated %}
+      <div class="nav-actions">
+        <a href="{% url 'todo:list' %}" class="btn btn-ghost">Tasks</a>
+        <a href="{% url 'home' %}" class="btn btn-ghost">{{ user.username }}</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-ghost">Log out</button>
+        </form>
+      </div>
+    {% else %}
+      <div class="nav-actions">
+        <a href="{% url 'login' %}" class="btn btn-ghost">Log in</a>
+        <a href="{% url 'register' %}" class="btn btn-primary">Get started</a>
+      </div>
+    {% endif %}
   </nav>
+
+  {% block content %}
 
   <section class="hero">
     <h1>Know the sky <em>before you step outside.</em></h1>
     <p class="lede">
-      Skylist shows you real-time weather for right where you are —
-      no searching, no setup. Just open it and see today.
+      | Skylist shows you real-time weather for right where you are —
+      sign up to search other cities' weather. <br>  {% if not user.is_authenticated %} 
+      <span style="font-weight: 500; font-style: italic; font-effect:Bold;"> ### Sign up free  or Login to use TODO and see them next to your forecast.  ### </span> {% endif %}
     </p>
+    
 
-    <div class="hero-ctas">
-      <a href="{% url 'register' %}" class="btn btn-primary">Create your account</a>
-    </div>
-
+    {% if not user.is_authenticated %}
+          <div class="hero-actions">
+            <a href="{% url 'register' %}" class="btn btn-primary">Create your account</a>
+            <a href="{% url "login" %}" class="btn btn-primary">Already have an account?</a>
+          </div>
+   {% endif %}
+    </section>
     <form method="get" action="{% url 'home' %}" class="weather-card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin:2.5rem auto 0; align-items:center;">
       <input
         type="text"
@@ -56,6 +75,6 @@
       </div>
     </div>
   </section>
-
+  {% endblock content %}
 </body>
 </html>

@@ -83,6 +83,25 @@ a { color: inherit; text-decoration: none; }
 .btn-ghost { background: transparent; border-color: var(--border); color: var(--ink); }
 .btn-ghost:hover { background: var(--card); }
 
+/* Secondary — for actions that matter but shouldn't compete with the
+   primary CTA (e.g. "Tasks" in the nav). Accent-colored outline. */
+.btn-secondary {
+  background: transparent;
+  border-color: var(--sky);
+  color: var(--sky);
+}
+.btn-secondary:hover { background: rgba(61, 126, 255, 0.08); transform: translateY(-1px); }
+
+/* Text — for low-emphasis actions (e.g. logout, a username label).
+   No border/background, so it doesn't visually compete with real buttons. */
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  padding: 0.75rem 0.5rem;
+}
+.btn-text:hover { color: var(--ink); }
+
 .icon-btn {
   width: 38px; height: 38px;
   border-radius: 50%;
@@ -225,3 +244,23 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink-soft);
   font-size: 0.9rem;
 }
+
+/* Feature teaser for logged-out visitors (e.g. "sign up to unlock Tasks") */
+.feature-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.5rem;
+  max-width: 560px;
+  margin: 1.5rem auto 0;
+  text-align: left;
+}
+.feature-callout .icon { font-size: 1.5rem; flex-shrink: 0; }
+.feature-callout .text strong { display: block; font-size: 0.95rem; }
+.feature-callout .text span { font-size: 0.82rem; color: var(--ink-soft); }

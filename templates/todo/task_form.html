@@ -1,0 +1,30 @@
+{% extends "weathersite/index.html" %}
+{% load static %}
+
+{% block content %}
+<main class="dashboard" style="max-width:480px;">
+  <div class="card">
+    <div class="card-head"><h3>Add a task</h3></div>
+
+    <form method="post">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="title"
+        placeholder="Task title"
+        required
+        style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:8px; margin-bottom:0.75rem;"
+      />
+      <textarea
+        name="description"
+        placeholder="Description (optional)"
+        rows="3"
+        style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:8px; margin-bottom:1rem; font-family:inherit;"
+      ></textarea>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+        Add task
+      </button>
+    </form>
+  </div>
+</main>
+{% endblock content %}
