@@ -7,74 +7,121 @@
   <title>Skylist — Weather, simply</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Fraunces:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 </head>
 <body>
 
-  <nav class="nav">
-    <a href="{% url 'index' %}" class="nav-logo"><span class="dot"></span>Skylist</a>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="{% url 'index' %}" class="brand"><span class="mark">☁</span>Skylist</a>
 
-    {% if user.is_authenticated %}
-      <div class="nav-actions">
-        <a href="{% url 'todo:list' %}" class="btn btn-ghost">Tasks</a>
-        <a href="{% url 'home' %}" class="btn btn-ghost">{{ user.username }}</a>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-ghost">Log out</button>
-        </form>
-      </div>
-    {% else %}
-      <div class="nav-actions">
-        <a href="{% url 'login' %}" class="btn btn-ghost">Log in</a>
-        <a href="{% url 'register' %}" class="btn btn-primary">Get started</a>
-      </div>
-    {% endif %}
+      {% if user.is_authenticated %}
+        <div class="navbar-actions">
+          <a href="{% url 'todo:list' %}" class="btn btn-outline btn-sm">Tasks</a>
+          <a href="{% url 'home' %}" class="nav-username">
+            <span class="avatar-dot">{{ user.username|first|upper }}</span>{{ user.username }}
+          </a>
+          <form action="{% url 'logout' %}" method="post" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-plain btn-sm">Log out</button>
+          </form>
+        </div>
+      {% else %}
+        <div class="navbar-actions">
+          <a href="{% url 'login' %}" class="btn btn-plain btn-sm">Log in</a>
+          <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Get started</a>
+        </div>
+      {% endif %}
+    </div>
   </nav>
 
   {% block content %}
+  <section class="hero-split">
 
-  <section class="hero">
-    <h1>Know the sky <em>before you step outside.</em></h1>
-    <p class="lede">
-      | Skylist shows you real-time weather for right where you are —
-      sign up to search other cities' weather. <br>  {% if not user.is_authenticated %} 
-      <span style="font-weight: 500; font-style: italic; font-effect:Bold;"> ### Sign up free  or Login to use TODO and see them next to your forecast.  ### </span> {% endif %}
-    </p>
-    
+    <div class="hero-copy">
+      <span class="eyebrow">● Live weather, zero setup</span>
 
-    {% if not user.is_authenticated %}
-          <div class="hero-actions">
-            <a href="{% url 'register' %}" class="btn btn-primary">Create your account</a>
-            <a href="{% url "login" %}" class="btn btn-primary">Already have an account?</a>
-          </div>
-   {% endif %}
-    </section>
-    <form method="get" action="{% url 'home' %}" class="weather-card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin:2.5rem auto 0; align-items:center;">
-      <input
-        type="text"
-        name="city"
-        placeholder="Search a city (e.g. Pokhara)"
-        style="flex:1; border:1px solid var(--border); border-radius:999px; padding:0.6rem 1rem; font-family:var(--font-body); font-size:0.9rem; background:var(--bg);"
-      />
-      <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+      <h1>Know the sky<br><span class="accent">before you step outside.</span></h1>
 
-    <div class="weather-card">
-      <div class="city">Kathmandu</div>
-      <div class="temp-row">
-        <div class="temp">22<span class="unit">°C</span></div>
-        <div class="icon">⛅</div>
-      </div>
-      <div class="condition">Partly cloudy</div>
-      <div class="weather-stats">
-        <span>Feels like<strong>24°</strong></span>
-        <span>Humidity<strong>58%</strong></span>
-        <span>Wind<strong>9 km/h</strong></span>
+      <p class="lede">
+        Skylist shows real-time weather for right where you are, and keeps
+        your to-dos one tab away — no searching, no clutter.
+      </p>
+
+      <div class="cta-row">
+        <a href="{% url 'register' %}" class="btn btn-primary">Create your account</a>
+        <a href="#" class="link-secondary">See how it works</a>
       </div>
     </div>
+
+    <div class="hero-visual">
+      <div class="blob"></div>
+
+      <div style="width:100%; max-width:380px; position:relative; z-index:1;">
+        <form method="get" action="{% url 'home' %}" class="search-bar" style="margin-bottom:1rem;">
+          <input type="text" name="city" placeholder="Search a city (e.g. Pokhara)" />
+          <button type="submit" class="btn btn-primary btn-sm">Search</button>
+        </form>
+        <a href="{% url "home" %}">
+        <div class="weather-card" style="max-width:none;">
+          <div class="city">Kathmandu</div>
+          <div class="temp-row">
+            <div class="temp">22<span class="unit">°C</span></div>
+            <div class="icon">⛅</div>
+          </div>
+          <div class="condition">Partly cloudy</div>
+          <div class="weather-stats">
+            <span>Feels like<strong>24°</strong></span>
+            <span>Humidity<strong>58%</strong></span>
+            <span>Wind<strong>9 km/h</strong></span>
+          </div>
+        </div></a>
+      </div>
+    </div>
+
   </section>
+
+  {% if not user.is_authenticated %}
+    <div class="promo-row mt-lg">
+      <div class="card">
+        <div class="glyph">✓</div>
+        <div class="body">
+          <strong>Track tasks alongside the weather</strong>
+          <span>Free account — add to-dos, see them next to your forecast.</span>
+        </div>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Sign up</a>
+      </div>
+    </div>
+  {% endif %}
+
   {% endblock content %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+{% if messages %}
+        <script>
+            {% for message in messages %}
+                // Determine background color based on Django message tags
+                let bgColor = "#333333"; // Default dark grey
+                if ("{{ message.tags }}" === "success") bgColor = "linear-gradient(to right, #00b09b, #96c93d)";
+                if ("{{ message.tags }}" === "error") bgColor = "linear-gradient(to right, #ff5f6d, #ffc371)";
+                if ("{{ message.tags }}" === "warning") bgColor = "linear-gradient(to right, #f857a6, #ff5858)";
+                if ("{{ message.tags }}" === "info") bgColor = "linear-gradient(to right, #2193b0, #6dd5ed)";
+
+                Toastify({
+                    text: "{{ message|escapejs }}",
+                    duration: 4000,
+                    close: true,
+                    gravity: "top", 
+                    position: "right", 
+                    style: {
+                        background: bgColor,
+                    }
+                }).showToast();
+            {% endfor %}
+        </script>
+    {% endif %}
 </body>
 </html>

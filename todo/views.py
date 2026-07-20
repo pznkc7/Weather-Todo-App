@@ -1,29 +1,26 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 
-# Create your views here.
-
 @login_required
 def task_list(request):
     tasks = Task.objects.filter(user=request.user).order_by('completed', '-created_at')
-    return render(request, 'todo/task_list.html',{'tasks': tasks})
+    return render(request, 'todo/task_list.html', {'tasks': tasks})
 
 
 @login_required
 def task_create(request):
-      if request.method == 'POST':
+    if request.method == 'POST':
         title = request.POST.get('title', '').strip()
         description = request.POST.get('description', '').strip()
- 
-        if title:  
+
+        if title:
             Task.objects.create(user=request.user, title=title, description=description)
-            return redirect('todo:list')#(redirect-after-POST prevents the classic'resubmits the form if you refresh the page' bug).
-        
-      return render(request, 'todo/task_form.html')
- 
+            return redirect('todo:list')  # redirect-after-POST prevents resubmitting the form on page refresh
+
+    return render(request, 'todo/task_form.html')
 
 
 @login_required

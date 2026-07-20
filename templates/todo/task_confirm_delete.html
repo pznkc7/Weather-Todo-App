@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block content %}
-<main class="dashboard" style="max-width:480px;">
+<main class="container" style="max-width:460px; padding-top:3rem;">
   <div class="card">
-    <div class="card-head"><h3>Delete this task?</h3></div>
-    <p style="color:var(--ink-soft); font-size:0.9rem;">"{{ task.title }}" will be permanently removed.</p>
+    <div class="card-row"><h3>Delete this task?</h3></div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:1.25rem;">
+      "{{ task.title }}" will be permanently removed. This can't be undone.
+    </p>
 
-    <form method="post" style="display:flex; gap:0.6rem; margin-top:1rem;">
+    <form method="post" style="display:flex; gap:0.6rem;">
       {% csrf_token %}
-      <button type="submit" class="btn btn-primary" style="background:var(--storm-red, #FF6B6B);">
-        Yes, delete it
-      </button>
-      <a href="{% url 'todo:list' %}" class="btn btn-ghost">Cancel</a>
+      <button type="submit" class="btn btn-danger">Yes, delete it</button>
+      <a href="{% url 'todo:list' %}" class="btn btn-outline">Cancel</a>
     </form>
   </div>
 </main>

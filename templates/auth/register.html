@@ -1,35 +1,44 @@
+{% extends "weathersite/index.html" %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>Sign up — Skylist</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'weathersite/style.css' %}" />
-</head>
-<body>
-  <nav class="nav">
-    <div class="nav-logo"><span class="dot"></span>Skylist</div>
-  </nav>
 
-  <main class="dashboard" style="max-width:400px;">
-    <div class="card">
-      <div class="card-head"><h3>Create your account</h3></div>
+{% block content %}
+<main class="container" style="max-width:400px; padding-top:4.5rem;">
+  <div class="card">
+    <div class="card-row"><h3>Create your account</h3></div>
 
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-error">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
 
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
-          Sign up
-        </button>
-      </form>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <div class="field">
+        <label>Username</label>
+        {{ form.username }}
+      </div>
+      <div class="field">
+        <label>Password</label>
+        {{ form.password1 }}
+      </div>
+      <div class="field">
+        <label>Confirm password</label>
+        {{ form.password2 }}
+      </div>
+      {% if form.errors %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div class="alert alert-error">{{ error }}</div>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+      <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+    </form>
 
-      <p style="margin-top:1rem;font-size:0.85rem;color:var(--ink-soft);">
-        Already have an account? <a href="{% url 'login' %}" style="color:var(--sky);">Log in</a>
-      </p>
-    </div>
-  </main>
-</body>
-</html>
+    <p style="margin-top:1.25rem; font-size:0.85rem; color:var(--ink-soft); text-align:center;">
+      Already have an account? <a href="{% url 'login' %}" style="color:var(--accent); font-weight:600;">Log in</a>
+    </p>
+  </div>
+</main>
+{% endblock content %}

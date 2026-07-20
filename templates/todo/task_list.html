@@ -2,53 +2,48 @@
 {% load static %}
 
 {% block content %}
-<main class="dashboard">
+<main class="container" style="padding-top:2rem; padding-bottom:4rem;">
 
-  <div class="card-head" style="margin-bottom:1rem;">
-    <h3>Your tasks</h3>
-    <a href="{% url 'todo:create' %}" class="btn btn-primary">+ Add task</a>
+  <div class="page-header">
+    <h2>Your tasks</h2>
+    <a href="{% url 'todo:create' %}" class="btn btn-primary btn-sm">+ Add task</a>
   </div>
 
-  {% if tasks %}
-    {% for task in tasks %}
-      <div class="card" style="display:flex; align-items:flex-start; justify-content:space-between; gap:1rem;">
-        <div style="flex:1;">
-          <div style="font-weight:600; {% if task.completed %}text-decoration:line-through; color:var(--ink-soft);{% endif %}">
-            {{ task.title }}
+  <div class="card">
+    {% if tasks %}
+      {% for task in tasks %}
+        <div class="task-item {% if task.completed %}completed{% endif %}">
+          <div style="flex:1;">
+            <span class="badge {% if task.completed %}badge-success{% else %}badge-pending{% endif %}" style="margin-bottom:0.5rem;">
+              {% if task.completed %}Done{% else %}Pending{% endif %}
+            </span>
+            <div class="title">{{ task.title }}</div>
+            {% if task.description %}
+              <div class="description">{{ task.description }}</div>
+            {% endif %}
+            <div class="timestamps">
+              <span>Created {{ task.created_at|date:"M d, H:i" }}</span>
+              {% if task.completed and task.completed_at %}
+                <span>Completed {{ task.completed_at|date:"M d, H:i" }}</span>
+              {% endif %}
+            </div>
           </div>
-          {% if task.description %}
-            <div style="font-size:0.85rem; color:var(--ink-soft); margin-top:0.25rem;">
-              {{ task.description }}
-            </div>
-          {% endif %}
-          {% if task.created_at %}
-            <div style="font-size:0.75rem; color:var(--ink-soft); margin-top:0.25rem;">
-              Created: {{ task.created_at|date:"M d, Y H:i" }}
-            </div>
-          {% endif %}
-          {% if task.completed %}
-            <div style="font-size:0.75rem; color:var(--ink-soft); margin-top:0.25rem;">
-              Completed: {{ task.completed_at|date:"M d, Y H:i" }}
-            </div>
-          {% endif %}
-        </div>
 
-        <div style="display:flex; gap:0.5rem; flex-shrink:0;">
-          <form method="post" action="{% url 'todo:toggle' task.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-ghost">
-              {% if task.completed %}Undo{% else %}Done{% endif %}
-            </button>
-          </form>
-          <a href="{% url 'todo:delete' task.id %}" class="btn btn-ghost">Delete</a>
+          <div class="task-actions">
+            <form method="post" action="{% url 'todo:toggle' task.id %}" style="margin:0;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline btn-sm">
+                {% if task.completed %}Undo{% else %}Done{% endif %}
+              </button>
+            </form>
+            <a href="{% url 'todo:delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </div>
         </div>
-      </div>
-    {% endfor %}
-  {% else %}
-    <div class="card">
+      {% endfor %}
+    {% else %}
       <div class="empty-state">No tasks yet — add your first one above.</div>
-    </div>
-  {% endif %}
+    {% endif %}
+  </div>
 
 </main>
 {% endblock content %}

@@ -2,28 +2,21 @@
 {% load static %}
 
 {% block content %}
-<main class="dashboard" style="max-width:480px;">
+<main class="container" style="max-width:460px; padding-top:3rem;">
   <div class="card">
-    <div class="card-head"><h3>Add a task</h3></div>
+    <div class="card-row"><h3>Add a task</h3></div>
 
-    <form method="post">
+    <form method="post" class="stack">
       {% csrf_token %}
-      <input
-        type="text"
-        name="title"
-        placeholder="Task title"
-        required
-        style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:8px; margin-bottom:0.75rem;"
-      />
-      <textarea
-        name="description"
-        placeholder="Description (optional)"
-        rows="3"
-        style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:8px; margin-bottom:1rem; font-family:inherit;"
-      ></textarea>
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-        Add task
-      </button>
+      <div class="field">
+        <label>Title</label>
+        <input class="input" type="text" name="title" placeholder="e.g. Submit report" required />
+      </div>
+      <div class="field">
+        <label>Description (optional)</label>
+        <textarea class="input" name="description" rows="3" placeholder="Any extra detail"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Add task</button>
     </form>
   </div>
 </main>

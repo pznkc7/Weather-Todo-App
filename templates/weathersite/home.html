@@ -1,69 +1,96 @@
 {% extends "weathersite/index.html" %}
 {% load static %}
 
+{% block content %}
+<main class="container container-wide" style="padding-top:2rem; padding-bottom:4rem;">
 
-  {% block content %}
-  <main class="dashboard">
+  <form method="get" class="search-bar" style="margin-bottom:1.5rem; max-width:420px;">
+    <input type="text" name="city" placeholder="Search a city (e.g. Pokhara)" value="{{ searched_city }}" />
+    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+  </form>
 
-    <form method="get" class="card" style="display:flex; gap:0.6rem; padding:1rem 1.25rem; margin-bottom:1.5rem;">
-      <input
-        type="text"
-        name="city"
-        placeholder="Search a city (e.g. Pokhara)"
-        value="{{ searched_city }}"
-        style="flex:1; border:1px solid var(--border); border-radius:999px; padding:0.6rem 1rem; font-family:var(--font-body); font-size:0.9rem;"
-      />
-      <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+  {% if search_error %}
+    <div class="alert alert-warning">{{ search_error }}</div>
+  {% endif %}
 
-    {% if search_error %}
-      <div class="card" style="border-color:#f2c94c;">
-        <div class="empty-state" style="color:var(--ink);">{{ search_error }}</div>
-      </div>
-    {% endif %}
+  <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:1.5rem; align-items:start;">
 
-
-    {% if weather %}
-      <div class="card weather-card" style="max-width:none;margin:0 0 1.5rem;">
-        <div class="city">{{ city_name }}</div>
-        <div class="temp-row">
-          <div class="temp">{{ weather.temp }}<span class="unit">°C</span></div>
-          <div class="icon">{{ weather.emoji }}</div>
-        </div>
-        <div class="condition">{{ weather.condition }}</div>
-        <div class="weather-stats">
-          <span>Feels like<strong>{{ weather.feels_like }}°</strong></span>
-          <span>Humidity<strong>{{ weather.humidity }}%</strong></span>
-          <span>Wind<strong>{{ weather.wind_speed }} km/h</strong></span>
-        </div>
-      </div>
-    {% else %}
-      <div class="card">
-        <div class="empty-state">
-          Couldn't load live weather right now — check your OpenWeather API key
-          and internet connection, then refresh.
-        </div>
-      </div>
-    {% endif %}
-
-    {% if forecast %}
-      <div class="card">
-        <div class="card-head">
-          <h3>Next 5 days</h3>
-          <span class="sub">°C</span>
-        </div>
-        <div class="forecast-strip">
-          {% for day in forecast %}
-            <div class="forecast-day">
-              <div class="d">{{ day.date }}</div>
-              <div class="icon">{{ day.emoji }}</div>
-              <div class="t">{{ day.temp }}°</div>
+    <!-- Weather column -->
+    <div>
+      {% if weather %}
+        <div class="weather-panel">
+          <div class="top-row">
+            <div class="city">{{ city_name }}</div>
+          </div>
+          <div class="main-row">
+            <div>
+              <div class="temp">{{ weather.temp }}<span class="unit">°C</span></div>
+              <div class="condition">{{ weather.condition }}</div>
             </div>
-          {% endfor %}
+            <div class="emoji">{{ weather.emoji }}</div>
+          </div>
+          <div class="stats-row">
+            <span>Feels like<strong>{{ weather.feels_like }}°</strong></span>
+            <span>Humidity<strong>{{ weather.humidity }}%</strong></span>
+            <span>Wind<strong>{{ weather.wind_speed }} km/h</strong></span>
+          </div>
         </div>
+      {% else %}
+        <div class="card">
+          <div class="empty-state">
+            Couldn't load live weather right now — check your OpenWeather API key
+            and internet connection, then refresh.
+          </div>
+        </div>
+      {% endif %}
+
+      {% if forecast %}
+        <div class="card mt-lg">
+          <div class="card-row">
+            <h3>Next 5 days</h3>
+            <span class="meta">°C</span>
+          </div>
+          <div class="forecast-grid">
+            {% for day in forecast %}
+              <div class="forecast-cell">
+                <div class="d">{{ day.date|slice:"5:" }}</div>
+                <div class="icon">{{ day.emoji }}</div>
+                <div class="t">{{ day.temp }}°</div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- My Tasks aside -->
+    <div class="card">
+      <div class="card-row">
+        <h3>My tasks</h3>
+        <a href="{% url 'todo:list' %}" class="meta" style="color:var(--accent); font-weight:600;">View all</a>
       </div>
-    {% endif %}
-  </main>
+
+        {% if tasks_preview %}
+        {% for task in tasks_preview %}
+          <div class="task-item {% if task.completed %}completed{% endif %}" style="padding:0.75rem 0;">
+            <div style="flex:1;">
+              <span class="badge {% if task.completed %}badge-success{% else %}badge-pending{% endif %}" style="margin-bottom:0.3rem;">
+                {% if task.completed %}Done{% else %}Pending{% endif %}
+              </span>
+              <div class="title" style="font-size:0.88rem;">{{ task.title }}</div>
+            </div>
+          </div>
+        {% endfor %}
+        <a href="{% url 'todo:create' %}" class="btn btn-outline btn-sm btn-block mt-lg">+ Add task</a>
+      {% else %}
+        <div class="empty-state" style="padding:1.5rem 0.5rem;">
+          You haven't created any tasks yet.
+        </div>
+        <a href="{% url 'todo:create' %}" class="btn btn-primary btn-sm btn-block">Create your first task</a>
+      {% endif %}
+    </div>
+
+  </div>
+
+</main>
 {% endblock content %}
-</body>
-</html>
