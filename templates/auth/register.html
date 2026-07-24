@@ -21,6 +21,8 @@
       <div class="field">
         <label>Password</label>
         {{ form.password1 }}
+        {{ form.password1.help_text|safe }}
+
       </div>
       <div class="field">
         <label>Confirm password</label>

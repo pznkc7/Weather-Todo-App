@@ -92,6 +92,5 @@ def home(request):
         'search_error': search_error,
         'searched_city': searched_city,
         'tasks_preview': tasks_preview,
-        'messages': messages.get_messages(request),  # Add this line to pass messages to the template
     }
     return render(request, 'weathersite/home.html', context)

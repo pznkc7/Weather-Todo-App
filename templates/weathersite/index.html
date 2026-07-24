@@ -90,7 +90,7 @@
       <div class="card">
         <div class="glyph">✓</div>
         <div class="body">
-          <strong>Track tasks alongside the weather</strong>
+          <strong>Track your tasks alongside the weather</strong>
           <span>Free account — add to-dos, see them next to your forecast.</span>
         </div>
         <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Sign up</a>
@@ -100,28 +100,24 @@
 
   {% endblock content %}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-{% if messages %}
-        <script>
-            {% for message in messages %}
-                // Determine background color based on Django message tags
-                let bgColor = "#333333"; // Default dark grey
-                if ("{{ message.tags }}" === "success") bgColor = "linear-gradient(to right, #00b09b, #96c93d)";
-                if ("{{ message.tags }}" === "error") bgColor = "linear-gradient(to right, #ff5f6d, #ffc371)";
-                if ("{{ message.tags }}" === "warning") bgColor = "linear-gradient(to right, #f857a6, #ff5858)";
-                if ("{{ message.tags }}" === "info") bgColor = "linear-gradient(to right, #2193b0, #6dd5ed)";
-
-                Toastify({
-                    text: "{{ message|escapejs }}",
-                    duration: 4000,
-                    close: true,
-                    gravity: "top", 
-                    position: "right", 
-                    style: {
-                        background: bgColor,
-                    }
-                }).showToast();
-            {% endfor %}
-        </script>
-    {% endif %}
+ {% if messages %}
+    <script>
+      {% for message in messages %}
+        Toastify({
+          text: "{{ message|escapejs }}",
+          duration: 3500,
+          gravity: "top",
+          position: "right",
+          close: true,
+          style: {
+            background: "{% if message.tags == 'error' %}#DC2626{% elif message.tags == 'success' %}#059669{% else %}#4F46E5{% endif %}",
+            borderRadius: "10px",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "0.88rem",
+          },
+        }).showToast();
+      {% endfor %}
+    </script>
+  {% endif %}
 </body>
 </html>
